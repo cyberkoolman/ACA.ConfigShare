@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <appSettings>
+    <add key="AppName" value="Randy Park - Shared Config Demo" />
+    <add key="DatabaseConnection" value="Server=localhost;Database=MyApp;xyz=123" />
+    <add key="ApiTimeout" value="30" />
+    <add key="EnableLogging" value="true" />
+    <add key="MaxUsers" value="100" />
+  </appSettings>
+</configuration>

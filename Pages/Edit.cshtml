@@ -1,0 +1,133 @@
+@page
+@model SharedConfigApp.Pages.EditModel
+@{
+    ViewData["Title"] = "Edit Configuration";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>Edit Configuration</h1>
+            <p class="text-muted">Modify configuration values in shared config.xml</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="/" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Configuration Settings</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="mb-3">
+                            <label asp-for="Config.AppName" class="form-label"></label>
+                            <input asp-for="Config.AppName" class="form-control" placeholder="Enter application name" />
+                            <span asp-validation-for="Config.AppName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Config.DatabaseConnection" class="form-label"></label>
+                            <textarea asp-for="Config.DatabaseConnection" class="form-control" rows="2" placeholder="Enter database connection string"></textarea>
+                            <span asp-validation-for="Config.DatabaseConnection" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Config.ApiTimeout" class="form-label"></label>
+                            <input asp-for="Config.ApiTimeout" type="number" class="form-control" min="1" max="300" />
+                            <span asp-validation-for="Config.ApiTimeout" class="text-danger"></span>
+                            <div class="form-text">Timeout in seconds (1-300)</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input asp-for="Config.EnableLogging" class="form-check-input" type="checkbox" />
+                                <label asp-for="Config.EnableLogging" class="form-check-label"></label>
+                            </div>
+                            <span asp-validation-for="Config.EnableLogging" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Config.MaxUsers" class="form-label"></label>
+                            <input asp-for="Config.MaxUsers" type="number" class="form-control" min="1" max="10000" />
+                            <span asp-validation-for="Config.MaxUsers" class="text-danger"></span>
+                            <div class="form-text">Maximum number of concurrent users (1-10000)</div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <a href="/" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Current Values</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <small class="text-muted">Application Name:</small><br>
+                        <span>@Model.Config.AppName</span>
+                    </div>
+                    <div class="mb-2">
+                        <small class="text-muted">Database Connection:</small><br>
+                        <span class="small">@Model.Config.DatabaseConnection</span>
+                    </div>
+                    <div class="mb-2">
+                        <small class="text-muted">API Timeout:</small><br>
+                        <span>@Model.Config.ApiTimeout seconds</span>
+                    </div>
+                    <div class="mb-2">
+                        <small class="text-muted">Enable Logging:</small><br>
+                        <span class="badge @(Model.Config.EnableLogging ? "bg-success" : "bg-secondary")">
+                            @(Model.Config.EnableLogging ? "Enabled" : "Disabled")
+                        </span>
+                    </div>
+                    <div class="mb-2">
+                        <small class="text-muted">Maximum Users:</small><br>
+                        <span>@Model.Config.MaxUsers</span>
+                    </div>
+                    <hr>
+                    <div class="mb-0">
+                        <small class="text-muted">Last Updated:</small><br>
+                        <span>@Model.Config.LastUpdated.ToString("yyyy-MM-dd HH:mm:ss")</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h5 class="mb-0">File Information</h5>
+                </div>
+                <div class="card-body">
+                    <p class="small mb-1"><strong>Config Path:</strong></p>
+                    <code class="small">@Model.ConfigPath</code>
+                    <p class="text-muted small mt-2">Changes will be automatically detected across all instances.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+</div>

@@ -1,0 +1,84 @@
+@page
+@model SharedConfigApp.Pages.IndexModel
+@{
+    ViewData["Title"] = "Configuration Dashboard";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>Configuration Dashboard</h1>
+            <p class="text-muted">Configuration values from shared config.xml</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="/Edit" class="btn btn-primary">Edit Configuration</a>
+            <a href="/" class="btn btn-secondary ms-2">Refresh</a>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Current Configuration</h5>
+                    <small class="text-muted">Last Updated: @Model.Config.LastUpdated.ToString("yyyy-MM-dd HH:mm:ss")</small>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Application Name</label>
+                                <div class="p-2 bg-light rounded">@Model.Config.AppName</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Database Connection</label>
+                                <div class="p-2 bg-light rounded small">@Model.Config.DatabaseConnection</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">API Timeout</label>
+                                <div class="p-2 bg-light rounded">@Model.Config.ApiTimeout seconds</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Enable Logging</label>
+                                <div class="p-2 bg-light rounded">
+                                    <span class="badge @(Model.Config.EnableLogging ? "bg-success" : "bg-secondary")">
+                                        @(Model.Config.EnableLogging ? "Enabled" : "Disabled")
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Maximum Users</label>
+                                <div class="p-2 bg-light rounded">@Model.Config.MaxUsers</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Configuration File Path</h5>
+                </div>
+                <div class="card-body">
+                    <code>@Model.ConfigPath</code>
+                    <p class="text-muted mt-2">This file is monitored for changes. Refresh the page to see updates made externally.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="alert alert-info">
+                <h6>File Monitoring Active</h6>
+                <p class="mb-0">The application automatically detects changes to the configuration file. You can edit the configuration through the web interface or directly modify the XML file. Click "Refresh" to see the latest changes.</p>
+            </div>
+        </div>
+    </div>
+</div>
