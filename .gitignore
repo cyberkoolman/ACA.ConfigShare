@@ -5,6 +5,7 @@
 
 # dotenv files
 .env
+mapdrive.cmd
 
 # User-specific files
 *.rsuser

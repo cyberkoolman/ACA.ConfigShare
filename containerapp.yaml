@@ -1,0 +1,27 @@
+properties:
+  template:
+    containers:
+      - name: shared-config-app
+        image: sharedconfigregistry5152.azurecr.io/shared-config-app:latest
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: Production
+          - name: ASPNETCORE_URLS
+            value: http://+:8080
+        volumeMounts:
+          - volumeName: config-volume
+            mountPath: /mnt/config
+        resources:
+          cpu: 0.25
+          memory: 0.5Gi
+    volumes:
+      - name: config-volume
+        storageType: AzureFile
+        storageName: config-storage
+    scale:
+      minReplicas: 1
+      maxReplicas: 5
+  configuration:
+    ingress:
+      external: true
+      targetPort: 8080

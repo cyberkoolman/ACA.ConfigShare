@@ -6,12 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<ConfigService>();
 
-// Add configuration for shared config path
-builder.Configuration.AddInMemoryCollection(new Dictionary<string, string?>
-{
-    ["SharedConfigPath"] = Path.Combine(Directory.GetCurrentDirectory(), "SharedData", "config.xml")
-});
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
