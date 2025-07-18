@@ -18,11 +18,11 @@ graph TB
         
         subgraph "Storage"
             AzureFiles["Azure Files<br/>config-share"]
-            StorageAccount["Storage Account<br/>sharedconfigstorage7887"]
+            StorageAccount["Storage Account"]
         end
         
         subgraph "Container Registry"
-            ACR["Azure Container Registry<br/>sharedconfigregistry5152"]
+            ACR["Azure Container Registry"]
         end
     end
     
