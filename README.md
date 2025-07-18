@@ -53,46 +53,17 @@ graph TB
 - **Real-time Configuration Sharing**: Changes made in one environment are immediately available to all others
 - **Cross-Platform Support**: Works on Windows, Linux, and containerized environments
 - **Web Interface**: User-friendly dashboard for viewing and editing configuration
-- **File Monitoring**: Automatic detection of external configuration changes
+- **File Monitoring**: Automatic detection of external configuration changes (local mode only, on Azure, manual refresh required)
 - **Cloud-Native**: Designed for Azure Container Apps with Azure Files integration
 - **Scalable**: Supports multiple container instances sharing the same configuration
 
 ## 🛠️ Technology Stack
 
 - **.NET 8.0**: Web application framework
-- **ASP.NET Core Razor Pages**: Web UI
 - **Azure Container Apps**: Cloud hosting platform
 - **Azure Files**: Shared file storage
 - **Azure Container Registry**: Container image storage
-- **XML Configuration**: Simple, human-readable config format
-- **File System Watcher**: Real-time change detection
-
-## 📁 Project Structure
-
-```
-SharedConfigApp/
-├── Models/
-│   └── ConfigModel.cs              # Configuration data model
-├── Services/
-│   └── ConfigService.cs            # Configuration management service
-├── Pages/
-│   ├── Index.cshtml                # Configuration dashboard
-│   ├── Index.cshtml.cs             # Dashboard page model
-│   ├── Edit.cshtml                 # Configuration editor
-│   ├── Edit.cshtml.cs              # Editor page model
-│   └── Shared/
-│       ├── _Layout.cshtml          # Layout template
-│       ├── _ViewStart.cshtml       # View configuration
-│       └── _ViewImports.cshtml     # Common imports
-├── SharedData/
-│   └── config.xml                  # Local configuration file (development)
-├── Program.cs                      # Application entry point
-├── appsettings.json                # Application settings
-├── appsettings.Development.json    # Development settings
-├── Dockerfile                      # Container configuration
-├── docker-compose.yml              # Local multi-instance testing
-└── README.md                       # This file
-```
+- **File System Watcher**: Real-time change detection (local mode support)
 
 ## 🚀 Quick Start
 
@@ -103,41 +74,10 @@ SharedConfigApp/
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) (optional)
 - Azure Subscription
 
-### Local Development
-
-```bash
-# Clone the repository
-git clone <your-repo-url>
-cd SharedConfigApp
-
-# Run locally
-dotnet run
-
-# Access the application
-# Navigate to https://localhost:7xxx (check console for exact port)
-```
-
-### Local Multi-Instance Testing
-
-```bash
-# Test multiple instances sharing configuration
-docker-compose up
-
-# Access instances:
-# http://localhost:8080 (instance 1)
-# http://localhost:8081 (instance 2)
-```
 
 ## ☁️ Azure Deployment
 
-### Automated Deployment
-
-```powershell
-# Run the deployment script
-.\deploy-to-azure-simple.ps1
-```
-
-### Manual Deployment
+### Deployment
 
 #### 1. Create Azure Resources
 
@@ -257,36 +197,6 @@ az containerapp update --name shared-config-app --resource-group $RESOURCE_GROUP
 2. **Monitor changes locally** by refreshing your local application
 3. **Verify file updates** in Azure Files storage
 
-## 📊 Monitoring and Troubleshooting
-
-### View Application Logs
-
-```powershell
-# Real-time logs
-az containerapp logs show --name shared-config-app --resource-group rg-shared-config --follow
-
-# Historical logs
-az containerapp logs show --name shared-config-app --resource-group rg-shared-config
-```
-
-### Check Configuration File
-
-```powershell
-# List files in Azure Files
-az storage file list --share-name config-share --account-name {storage-account}
-
-# Download current configuration
-az storage file download --share-name config-share --path config.xml --dest current-config.xml --account-name {storage-account}
-```
-
-### Common Issues
-
-| Issue | Symptom | Solution |
-|-------|---------|----------|
-| Configuration not updating | Changes don't reflect across instances | Check Azure Files mount and permissions |
-| File not found errors | Application fails to start | Verify file share and mount path configuration |
-| Permission denied | Cannot write to configuration file | Check Azure Files access mode and storage key |
-| Container image not updating | Code changes not reflected | Force new revision deployment |
 
 ## 📈 Scaling and Performance
 
@@ -323,68 +233,3 @@ az containerapp update --name shared-config-app --resource-group rg-shared-confi
 - Implement network security groups for access control
 - Monitor file access through Azure Monitor
 
-## 🌐 Production Considerations
-
-### High Availability
-
-- **Multi-region deployment**: Deploy across multiple Azure regions
-- **Storage replication**: Use geo-redundant storage for Azure Files
-- **Container Apps**: Built-in high availability and automatic failover
-
-### Backup and Recovery
-
-```powershell
-# Create backup of configuration
-az storage file download --share-name config-share --path config.xml --dest backup-$(Get-Date -Format "yyyyMMdd").xml --account-name {storage-account}
-
-# Restore from backup
-az storage file upload --share-name config-share --source backup-config.xml --path config.xml --account-name {storage-account}
-```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-- **Documentation**: Check this README and inline code comments
-- **Issues**: Create an issue in the repository
-- **Azure Support**: Use Azure support channels for platform-specific issues
-
-## 🎯 Use Cases
-
-### Enterprise Scenarios
-
-- **Multi-environment configuration**: Development, staging, and production
-- **Microservices coordination**: Shared settings across service boundaries
-- **Feature flags**: Dynamic feature enablement across environments
-- **API configuration**: Centralized endpoint and key management
-
-### Development Scenarios
-
-- **Team collaboration**: Shared development settings
-- **Local testing**: Consistent configuration across team members
-- **CI/CD integration**: Automated configuration deployment
-- **Environment parity**: Consistent settings from development to production
-
----
-
-## 🏆 Success Metrics
-
-After successful deployment, you should achieve:
-
-- ✅ **Real-time synchronization**: Configuration changes appear instantly across all instances
-- ✅ **Zero-downtime updates**: Configuration changes without application restart
-- ✅ **Cross-platform compatibility**: Works on Windows, Linux, and containers
-- ✅ **Scalable architecture**: Supports multiple instances and environments
-- ✅ **Centralized management**: Single source of truth for configuration
-
-**Live Demo**: Your application is running at `https://shared-config-app.thankfulwave-1ed6ca2d.eastus.azurecontainerapps.io`
