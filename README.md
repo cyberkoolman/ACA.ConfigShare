@@ -83,11 +83,17 @@ graph TB
 
 ```powershell
 # Set variables
-$RESOURCE_GROUP = "rg-shared-config"
-$LOCATION = "eastus"
-$STORAGE_ACCOUNT = "sharedconfigstorage$(Get-Random -Minimum 1000 -Maximum 9999)"
+# $RESOURCE_GROUP = "rg-shared-config-poc"
+# $LOCATION = "eastus"
+# $STORAGE_ACCOUNT = "sharedconfigstorage"
+# $FILE_SHARE = "config-share"
+# $ACR_NAME = "sharedconfigregistry"
+
+$RESOURCE_GROUP = {your-resource-group}
+$LOCATION = {your-azure-primary-region}
+$STORAGE_ACCOUNT = {your-storage-account}
 $FILE_SHARE = "config-share"
-$ACR_NAME = "sharedconfigregistry$(Get-Random -Minimum 1000 -Maximum 9999)"
+$ACR_NAME = {your-acr-name}
 
 # Create resource group
 az group create --name $RESOURCE_GROUP --location $LOCATION
